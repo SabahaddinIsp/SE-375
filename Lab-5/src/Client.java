@@ -1,6 +1,6 @@
-
 import java.net.*;
 import java.io.*;
+
 public class Client {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -27,17 +27,17 @@ public class Client {
 
         URL = inFromServer.readLine();
 
-        System.out.println("Received: "+ URL);
+        System.out.println("Received: " + URL);
 
         BufferedInputStream in = new BufferedInputStream(new URL(URL).openStream());
 
-        for(int i = in.available();i>0;i--)
+        for (int i = in.available(); i > 0; i--)
 
-            urlData = urlData + (char)in.read();
+            urlData = urlData + (char) in.read();
 
         in.close();
 
-        System.out.println("Data: "+urlData);
+        System.out.println("Data: " + urlData);
 
         System.out.println("Enter Choices: U/L How many R/Y");
 
@@ -47,17 +47,17 @@ public class Client {
 
         RY = inFromUser.readLine();
 
-        outToServer.writeBytes(urlData.length()+" "+UL+" "+times+" "+RY + '\n');
+        outToServer.writeBytes(urlData.length() + " " + UL + " " + times + " " + RY + '\n');
 
         char[] holder = urlData.toCharArray();
 
-        for(int i=0; i<urlData.length();i++){
+        for (int i = 0; i < urlData.length(); i++) {
 
             outToServer.writeChar(holder[i]);
 
         }
 
-        System.out.println("ORIGINAL: "+ urlData);
+        System.out.println("ORIGINAL: " + urlData);
 
         System.out.println("After Case Change");
 

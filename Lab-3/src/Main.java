@@ -10,13 +10,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 public class Main {
 
-    public static class caseThread extends Thread{
+    public static class caseThread extends Thread {
 
         private String name;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private Lock lock;
 
@@ -32,7 +33,7 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
             if (name.equals("U")) {
 
@@ -68,11 +69,11 @@ public class Main {
 
     }
 
-    public static class shiftThread extends Thread{
+    public static class shiftThread extends Thread {
 
         private int times;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private Lock lock;
 
@@ -88,9 +89,9 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
-            for(int i = 0;i< tmpMap1.size();i++) {
+            for (int i = 0; i < tmpMap1.size(); i++) {
 
                 String str1 = tmpMap1.get(i)[0];
 
@@ -116,11 +117,11 @@ public class Main {
 
     }
 
-    public static class colorThread extends Thread{
+    public static class colorThread extends Thread {
 
         private String name;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private Lock lock;
 
@@ -136,7 +137,7 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
             final String ANSI_RESET = "\u001B[0m";
 
@@ -191,13 +192,13 @@ public class Main {
 
         private int timesIter;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private int cur;
 
         private Lock lock;
 
-        public allThread(String nameC, String nameca,int times , ConcurrentHashMap<Integer, String[]> a,Lock lock1) {
+        public allThread(String nameC, String nameca, int times, ConcurrentHashMap<Integer, String[]> a, Lock lock1) {
 
             this.nameCol = nameC;
 
@@ -213,17 +214,17 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
-            Thread tCase = new Thread(new caseThread(nameCase,tmpMap1,lock));
+            Thread tCase = new Thread(new caseThread(nameCase, tmpMap1, lock));
 
             tCase.start();
 
-            Thread tColor = new Thread(new colorThread(nameCol,tmpMap1,lock));
+            Thread tColor = new Thread(new colorThread(nameCol, tmpMap1, lock));
 
             tColor.start();
 
-            Thread tShift = new Thread(new shiftThread(timesIter,tmpMap1,lock));
+            Thread tShift = new Thread(new shiftThread(timesIter, tmpMap1, lock));
 
             tShift.start();
 
@@ -320,9 +321,9 @@ holder.add(tmpMap);
 }
  */
 
-        ConcurrentHashMap<Integer,String[]> tmpMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, String[]> tmpMap = new ConcurrentHashMap<>();
 
-        for(int i= 0; i< tmp.length;i++){
+        for (int i = 0; i < tmp.length; i++) {
 
             String[] tmpSt = new String[5];
 
@@ -332,7 +333,7 @@ holder.add(tmpMap);
 
             tmpSt[4] = "0";
 
-            tmpMap.put(i,tmpSt);
+            tmpMap.put(i, tmpSt);
 
         }
 
@@ -356,21 +357,21 @@ holder.add(tmpMap);
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-        for(int j = 0; j<4;j++){
+        for (int j = 0; j < 4; j++) {
 
-            executorService.execute(new Thread(new allThread(ans3,ans1,ans2,tmpMap,lock)));
+            executorService.execute(new Thread(new allThread(ans3, ans1, ans2, tmpMap, lock)));
 
-            for (int i = 0; i< tmpMap.size();i++){
+            for (int i = 0; i < tmpMap.size(); i++) {
 
-                System.out.print(i+"\t--> "+tmpMap.get(i)[0]);
+                System.out.print(i + "\t--> " + tmpMap.get(i)[0]);
 
-                System.out.print("\t"+ tmpMap.get(i)[1]);
+                System.out.print("\t" + tmpMap.get(i)[1]);
 
-                System.out.print("\t"+tmpMap.get(i)[2]);
+                System.out.print("\t" + tmpMap.get(i)[2]);
 
-                System.out.print("\t"+tmpMap.get(i)[3]);
+                System.out.print("\t" + tmpMap.get(i)[3]);
 
-                System.out.println("\t"+tmpMap.get(i)[4]);
+                System.out.println("\t" + tmpMap.get(i)[4]);
 
             }
 

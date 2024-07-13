@@ -1,9 +1,10 @@
 import java.net.*;
 import java.io.*;
 import java.util.Locale;
+
 public class Server {
 
-    public static void main(String argv[]) throws Exception {
+    public static void main(String[] argv) throws Exception {
 
         String clientSentence;
 
@@ -21,7 +22,8 @@ public class Server {
 
         System.out.println("Waiting For Connection...");
 
-        System.out.println("Sending the URL");outToClient.writeBytes("https://homes.izmirekonomi.edu.tr/eokur/sample0.txt\n");
+        System.out.println("Sending the URL");
+        outToClient.writeBytes("https://homes.izmirekonomi.edu.tr/eokur/sample0.txt\n");
 
         clientSentence = inFromClient.readLine();
 
@@ -31,11 +33,11 @@ public class Server {
 
         System.out.println(dataL);
 
-        String [] holder = new String[20];
+        String[] holder = new String[20];
 
         int intVal = Integer.parseInt(dataL);
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             holder[i] = inFromClient.readLine();
 
@@ -49,9 +51,7 @@ public class Server {
 
             }
 
-        }
-
-        else if (hold[1].equals("L")) {
+        } else if (hold[1].equals("L")) {
 
             for (int i = 0; i < intVal; i++) {
 
@@ -63,15 +63,15 @@ public class Server {
 
         String tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             tmp = tmp + holder[i];
 
         }
 
-        outToClient.writeChars(tmp+ "\n");
+        outToClient.writeChars(tmp + "\n");
 
-        for(int i = 0;i< intVal;i++) {
+        for (int i = 0; i < intVal; i++) {
 
             String str1 = holder[i];
 
@@ -89,13 +89,13 @@ public class Server {
 
         tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             tmp = tmp + holder[i];
 
         }
 
-        outToClient.writeChars(tmp+"\n");
+        outToClient.writeChars(tmp + "\n");
 
         final String ANSI_RESET = "\u001B[0m";
 
@@ -105,9 +105,9 @@ public class Server {
 
         if (hold[3].equals("R")) {
 
-            for (int i = 0; i <intVal; i++) {
+            for (int i = 0; i < intVal; i++) {
 
-                String tmpColored1 = new String(ANSI_RED + holder[i] + ANSI_RESET);
+                String tmpColored1 = ANSI_RED + holder[i] + ANSI_RESET;
 
                 holder[i] = tmpColored1;
 
@@ -117,7 +117,7 @@ public class Server {
 
             for (int i = 0; i < intVal; i++) {
 
-                String tmpColored1 = new String(ANSI_YELLOW + holder[i] + ANSI_RESET);
+                String tmpColored1 = ANSI_YELLOW + holder[i] + ANSI_RESET;
 
                 holder[i] = tmpColored1;
 
@@ -127,13 +127,13 @@ public class Server {
 
         tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             tmp = tmp + holder[i];
 
         }
 
-        outToClient.writeChars(tmp+"\n");
+        outToClient.writeChars(tmp + "\n");
 
     }
 }

@@ -53,13 +53,16 @@ public class Main {
             System.out.println("\t" + tmpMap.get(i)[3]);
         }
     }
+
     public static class caseThread extends Thread {
         private final String name;
         private final HashMap<Integer, String[]> tmpMap1;
+
         public caseThread(String s, HashMap<Integer, String[]> a) {
             this.name = s;
             this.tmpMap1 = a;
         }
+
         @Override
         public void run() {
             if (name.equals("U")) {
@@ -73,13 +76,16 @@ public class Main {
             }
         }
     }
+
     public static class shiftThread extends Thread {
         private final int times;
         private final HashMap<Integer, String[]> tmpMap1;
+
         public shiftThread(int s, HashMap<Integer, String[]> a) {
             this.times = s;
             this.tmpMap1 = a;
         }
+
         @Override
         public void run() {
             for (int i = 0; i < tmpMap1.size(); i++) {
@@ -92,13 +98,16 @@ public class Main {
             }
         }
     }
+
     public static class colorThread extends Thread {
         private final String name;
         private final HashMap<Integer, String[]> tmpMap1;
+
         public colorThread(String s, HashMap<Integer, String[]> a) {
             this.name = s;
             this.tmpMap1 = a;
         }
+
         @Override
         public void run() {
             final String ANSI_RESET = "\u001B[0m";

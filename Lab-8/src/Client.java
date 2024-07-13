@@ -7,9 +7,10 @@ import javax.crypto.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.spec.*;
-public class Client{
 
-    public static void main(String[] args) throws Exception{
+public class Client {
+
+    public static void main(String[] args) throws Exception {
 
         String ulcase;
 
@@ -19,7 +20,7 @@ public class Client{
 
         String cipherUrl;
 
-        String urlData="";
+        String urlData = "";
 
         String modifiedSentence;
 
@@ -31,15 +32,15 @@ public class Client{
 
         byte[] encryptedText;
 
-        MessageDigest md=MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-        BufferedReader inFromUser=new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
-        Socket clientSocket=new Socket("localhost",6789);
+        Socket clientSocket = new Socket("localhost", 6789);
 
-        DataOutputStream outToServer=new DataOutputStream(clientSocket.getOutputStream());
+        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 
-        DataInputStream inFromServer=new DataInputStream(clientSocket.getInputStream());
+        DataInputStream inFromServer = new DataInputStream(clientSocket.getInputStream());
 
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
 
@@ -91,31 +92,31 @@ public class Client{
 
         boolean verified = signature.verify(retrievedSing);
 
-        System.out.println(verified ? "Legit": "Forged");
+        System.out.println(verified ? "Legit" : "Forged");
 
-        cipher=Cipher.getInstance("RSA");
+        cipher = Cipher.getInstance("RSA");
 
-        cipher.init(Cipher.DECRYPT_MODE,privateKey);
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
-        cipherUrl=inFromServer.readUTF();
+        cipherUrl = inFromServer.readUTF();
 
-        decryptedText=Base64.getDecoder().decode(cipherUrl);
+        decryptedText = Base64.getDecoder().decode(cipherUrl);
 
-        newDecryptedText=cipher.doFinal(decryptedText);
+        newDecryptedText = cipher.doFinal(decryptedText);
 
-        String U=new String(newDecryptedText);
+        String U = new String(newDecryptedText);
 
-        System.out.printf("Received String URL: %s \n",U);
+        System.out.printf("Received String URL: %s \n", U);
 
-        BufferedInputStream in=new BufferedInputStream(new URL(new String(newDecryptedText)).openStream());
+        BufferedInputStream in = new BufferedInputStream(new URL(new String(newDecryptedText)).openStream());
 
-        for(int i=in.available(); i>0; i--)
+        for (int i = in.available(); i > 0; i--)
 
-            urlData+=(char)in.read();
+            urlData += (char) in.read();
 
         in.close();
 
-        cipher.init(Cipher.ENCRYPT_MODE,serVerPublicKey);
+        cipher.init(Cipher.ENCRYPT_MODE, serVerPublicKey);
 
         encryptedText = cipher.doFinal(urlData.getBytes(StandardCharsets.UTF_8));
 

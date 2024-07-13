@@ -6,9 +6,10 @@ import java.security.*;
 import javax.crypto.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-public class Server{
 
-    public static void main(String[] args) throws Exception{
+public class Server {
+
+    public static void main(String[] args) throws Exception {
 
         String clientSentence;
 
@@ -22,17 +23,17 @@ public class Server{
 
         byte[] newDecryptedText;
 
-        String url="https://homes.izmirekonomi.edu.tr/eokur/sample0.txt";
+        String url = "https://homes.izmirekonomi.edu.tr/eokur/sample0.txt";
 
-        MessageDigest md=MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-        ServerSocket welcomeSocket=new ServerSocket(6789);
+        ServerSocket welcomeSocket = new ServerSocket(6789);
 
-        Socket connectionSocket=welcomeSocket.accept();
+        Socket connectionSocket = welcomeSocket.accept();
 
-        DataInputStream inFromClient=new DataInputStream(connectionSocket.getInputStream());
+        DataInputStream inFromClient = new DataInputStream(connectionSocket.getInputStream());
 
-        DataOutputStream outToClient=new DataOutputStream(connectionSocket.getOutputStream());
+        DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 
         System.out.println("Waiting for connection...");
 
@@ -50,9 +51,9 @@ public class Server{
 
         signature.initSign(privateKey);
 
-        byte[] encodedPublic=publicKey.getEncoded();
+        byte[] encodedPublic = publicKey.getEncoded();
 
-        String toSendPublic =Base64.getEncoder().encodeToString(encodedPublic);
+        String toSendPublic = Base64.getEncoder().encodeToString(encodedPublic);
 
         outToClient.writeUTF(toSendPublic);
 
@@ -86,13 +87,13 @@ public class Server{
 
         boolean verified = signature.verify(RetSig);
 
-        System.out.println(verified ? "Legit": "Forged");
+        System.out.println(verified ? "Legit" : "Forged");
 
-        cipher=Cipher.getInstance("RSA");
+        cipher = Cipher.getInstance("RSA");
 
-        cipher.init(Cipher.ENCRYPT_MODE,clientPublicKey);
+        cipher.init(Cipher.ENCRYPT_MODE, clientPublicKey);
 
-        encryptedText=cipher.doFinal(url.getBytes(StandardCharsets.UTF_8));
+        encryptedText = cipher.doFinal(url.getBytes(StandardCharsets.UTF_8));
 
         System.out.println("Sending the URL...");
 
@@ -100,7 +101,7 @@ public class Server{
 
         clientSentence = inFromClient.readUTF();
 
-        cipher.init(Cipher.DECRYPT_MODE,privateKey);
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
         decryptedText = Base64.getDecoder().decode(clientSentence);
 

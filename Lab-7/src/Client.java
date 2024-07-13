@@ -5,9 +5,10 @@ import java.security.MessageDigest;
 import java.nio.charset.*;
 import javax.crypto.*;
 import javax.crypto.spec.*;
-public class Client{
 
-    public static void main(String[] args) throws Exception{
+public class Client {
+
+    public static void main(String[] args) throws Exception {
 
         String UL;
 
@@ -45,11 +46,11 @@ public class Client{
 
         byte[] encodedKey = Base64.getDecoder().decode(secretKey);
 
-        SecretKey originalKey = new SecretKeySpec(encodedKey,"AES");
+        SecretKey originalKey = new SecretKeySpec(encodedKey, "AES");
 
         cipher = Cipher.getInstance("AES");
 
-        cipher.init(Cipher.DECRYPT_MODE,originalKey);
+        cipher.init(Cipher.DECRYPT_MODE, originalKey);
 
         cipherUrl = inFromServer.readUTF();
 
@@ -61,7 +62,7 @@ public class Client{
 
         U = new String(decrypted_text1);
 
-        System.out.println("Received String URL: "+ U);
+        System.out.println("Received String URL: " + U);
 
         byte[] hashInBytes = md.digest(U.getBytes(StandardCharsets.UTF_8));
 
@@ -69,25 +70,23 @@ public class Client{
 
         boolean flag = true;
 
-        for(int i = 0;i< hashInBytes.length;i++){
+        for (int i = 0; i < hashInBytes.length; i++) {
 
             tmp = inFromServer.readByte();
 
-            if(tmp!= hashInBytes[i])
+            if (tmp != hashInBytes[i])
 
                 flag = false;
 
         }
 
-        if (!flag){
+        if (!flag) {
 
             System.out.println("Closing Connection");
 
             clientSocket.close();
 
-        }
-
-        else
+        } else
 
             System.out.println("Url digest checked");
 
@@ -97,13 +96,13 @@ public class Client{
 
         BufferedInputStream in = new BufferedInputStream(new URL(new String(decrypted_text1)).openStream());
 
-        for(int i=in.available(); i>0; i--)
+        for (int i = in.available(); i > 0; i--)
 
-            urlData+=(char)in.read();
+            urlData += (char) in.read();
 
         in.close();
 
-        System.out.println("Data: "+urlData);
+        System.out.println("Data: " + urlData);
 
         System.out.println("Enter Choices: U/L Shift (number) R/Y");
 
@@ -119,7 +118,7 @@ public class Client{
 
         byte[] preferences = md.digest((str).getBytes(StandardCharsets.UTF_8));
 
-        for(byte b: preferences)
+        for (byte b : preferences)
 
             outToServer.writeByte(b);
 
@@ -129,7 +128,7 @@ public class Client{
 
         String holderCh;
 
-        for(int i=0; i<urlData.length(); i++){
+        for (int i = 0; i < urlData.length(); i++) {
 
             holderCh = String.valueOf(holder[i]);
 
@@ -139,7 +138,7 @@ public class Client{
 
         }
 
-        System.out.println("ORIGINAL: "+ urlData);
+        System.out.println("ORIGINAL: " + urlData);
 
 
         System.out.println("After Case Change");

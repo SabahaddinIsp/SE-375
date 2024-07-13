@@ -7,6 +7,7 @@ import java.security.SecureRandom;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.Cipher;
+
 public class Server {
 
     public static void main(String argv[]) throws Exception {
@@ -71,13 +72,13 @@ public class Server {
 
         System.out.println(dataL);
 
-        String [] holder = new String[20];
+        String[] holder = new String[20];
 
         int intVal = Integer.parseInt(dataL);
 
         String comingString;
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             comingString = inFromClient.readUTF();
 
@@ -97,9 +98,7 @@ public class Server {
 
             }
 
-        }
-
-        else if (hold[1].equals("L")) {
+        } else if (hold[1].equals("L")) {
 
             for (int i = 0; i < intVal; i++) {
 
@@ -111,7 +110,7 @@ public class Server {
 
         String tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             tmp = tmp + holder[i];
 
@@ -119,7 +118,7 @@ public class Server {
 
         outToClient.writeUTF(tmp);
 
-        for(int i = 0;i< intVal;i++) {
+        for (int i = 0; i < intVal; i++) {
 
             String str1 = holder[i];
 
@@ -138,7 +137,7 @@ public class Server {
 
         tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             tmp = tmp + holder[i];
 
@@ -154,7 +153,7 @@ public class Server {
 
         if (hold[3].equals("R")) {
 
-            for (int i = 0; i <intVal; i++) {
+            for (int i = 0; i < intVal; i++) {
 
                 String tmpColored1 = new String(ANSI_RED + holder[i] + ANSI_RESET);
 
@@ -176,7 +175,7 @@ public class Server {
 
         tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             tmp = tmp + holder[i];
 

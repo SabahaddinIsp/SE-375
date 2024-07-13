@@ -13,13 +13,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.net.*;
 import java.io.*;
+
 public class Main {
 
-    public static class caseThread extends Thread{
+    public static class caseThread extends Thread {
 
         private String name;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private Lock lock;
 
@@ -35,7 +36,7 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
             if (name.equals("U")) {
 
@@ -71,11 +72,11 @@ public class Main {
 
     }
 
-    public static class shiftThread extends Thread{
+    public static class shiftThread extends Thread {
 
         private int times;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private Lock lock;
 
@@ -91,9 +92,9 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
-            for(int i = 0;i< tmpMap1.size();i++) {
+            for (int i = 0; i < tmpMap1.size(); i++) {
 
                 String str1 = tmpMap1.get(i)[0];
 
@@ -119,11 +120,11 @@ public class Main {
 
     }
 
-    public static class colorThread extends Thread{
+    public static class colorThread extends Thread {
 
         private String name;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private Lock lock;
 
@@ -139,7 +140,7 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
             final String ANSI_RESET = "\u001B[0m";
 
@@ -194,7 +195,7 @@ public class Main {
 
         private int timesIter;
 
-        private ConcurrentHashMap<Integer,String[]> tmpMap1;
+        private ConcurrentHashMap<Integer, String[]> tmpMap1;
 
         private int cur;
 
@@ -202,7 +203,7 @@ public class Main {
 
         private String url;
 
-        public allThread(String nameC, String nameca,int times , ConcurrentHashMap<Integer, String[]> a,Lock lock1,String u) {
+        public allThread(String nameC, String nameca, int times, ConcurrentHashMap<Integer, String[]> a, Lock lock1, String u) {
 
             this.nameCol = nameC;
 
@@ -224,17 +225,17 @@ public class Main {
 
                 String[] tReal = new String[20];
 
-                for(int i =0;i<20;i++){
+                for (int i = 0; i < 20; i++) {
 
-                    t[i] =String.valueOf ((char)in.read());
+                    t[i] = String.valueOf((char) in.read());
 
                 }
 
-                for(int i =0;i<20;i++){
+                for (int i = 0; i < 20; i++) {
 
                     tReal[0] = t[i];
 
-                    a.put(i,tReal);
+                    a.put(i, tReal);
 
                 }
 
@@ -248,17 +249,17 @@ public class Main {
 
         @Override
 
-        public void run(){
+        public void run() {
 
-            Thread tCase = new Thread(new caseThread(nameCase,tmpMap1,lock));
+            Thread tCase = new Thread(new caseThread(nameCase, tmpMap1, lock));
 
             tCase.start();
 
-            Thread tColor = new Thread(new colorThread(nameCol,tmpMap1,lock));
+            Thread tColor = new Thread(new colorThread(nameCol, tmpMap1, lock));
 
             tColor.start();
 
-            Thread tShift = new Thread(new shiftThread(timesIter,tmpMap1,lock));
+            Thread tShift = new Thread(new shiftThread(timesIter, tmpMap1, lock));
 
             tShift.start();
 
@@ -301,15 +302,15 @@ public class Main {
         final Lock lock = new ReentrantLock();
 
 
-        ArrayList<ConcurrentHashMap<Integer,String[]>> hold = new ArrayList<>();
+        ArrayList<ConcurrentHashMap<Integer, String[]>> hold = new ArrayList<>();
 
-        ConcurrentHashMap<Integer,String[]> holder1 = new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, String[]> holder1 = new ConcurrentHashMap<>();
 
-        ConcurrentHashMap<Integer,String[]> holder2 = new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, String[]> holder2 = new ConcurrentHashMap<>();
 
-        ConcurrentHashMap<Integer,String[]> holder3 = new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, String[]> holder3 = new ConcurrentHashMap<>();
 
-        ConcurrentHashMap<Integer,String[]> holder4 = new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, String[]> holder4 = new ConcurrentHashMap<>();
 
         hold.add(holder1);
 
@@ -337,7 +338,7 @@ public class Main {
 
         hold2.add(url4);
 
-        String ans1 ;
+        String ans1;
 
         ans1 = "U";
 
@@ -351,33 +352,33 @@ public class Main {
 
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
-        for(int j = 0; j<4;j++){
+        for (int j = 0; j < 4; j++) {
 
-            ConcurrentHashMap<Integer,String[]> tmpMap = hold.get(j);
+            ConcurrentHashMap<Integer, String[]> tmpMap = hold.get(j);
 
             String tmpUrl = hold2.get(j);
 
-            executorService.execute(new Thread(new allThread(ans3,ans1,ans2,tmpMap,lock,url1)));
+            executorService.execute(new Thread(new allThread(ans3, ans1, ans2, tmpMap, lock, url1)));
 
         }
 
         executorService.shutdown();
 
-        for(int j = 0;j<4;j++){
+        for (int j = 0; j < 4; j++) {
 
-            ConcurrentHashMap<Integer,String[]> tmpMap = hold.get(j);
+            ConcurrentHashMap<Integer, String[]> tmpMap = hold.get(j);
 
-            for (int i = 0; i< tmpMap.size();i++){
+            for (int i = 0; i < tmpMap.size(); i++) {
 
-                System.out.print(i+"\t--> "+tmpMap.get(i)[0]);
+                System.out.print(i + "\t--> " + tmpMap.get(i)[0]);
 
-                System.out.print("\t"+ tmpMap.get(i)[1]);
+                System.out.print("\t" + tmpMap.get(i)[1]);
 
-                System.out.print("\t"+tmpMap.get(i)[2]);
+                System.out.print("\t" + tmpMap.get(i)[2]);
 
-                System.out.print("\t"+tmpMap.get(i)[3]);
+                System.out.print("\t" + tmpMap.get(i)[3]);
 
-                System.out.println("\t"+tmpMap.get(i)[4]);
+                System.out.println("\t" + tmpMap.get(i)[4]);
 
             }
 

@@ -5,9 +5,10 @@ import java.nio.charset.*;
 import javax.crypto.*;
 import java.security.*;
 import java.security.MessageDigest;
-public class Server{
 
-    public static void main(String[] args) throws Exception{
+public class Server {
+
+    public static void main(String[] args) throws Exception {
 
         String clientSentence;
 
@@ -63,7 +64,7 @@ public class Server{
 
         byte[] hashInBytes = md.digest(url.getBytes(StandardCharsets.UTF_8));
 
-        for (byte b : hashInBytes){
+        for (byte b : hashInBytes) {
 
             outToClient.writeByte(b);
 
@@ -77,25 +78,23 @@ public class Server{
 
         boolean flag = true;
 
-        for(int i = 0;i< hashInBytes.length;i++){
+        for (int i = 0; i < hashInBytes.length; i++) {
 
             tmp1 = inFromClient.readByte();
 
-            if(tmp1!= pref[i])
+            if (tmp1 != pref[i])
 
                 flag = false;
 
         }
 
-        if (!flag){
+        if (!flag) {
 
             System.out.println("Closing Connection");
 
             connectionSocket.close();
 
-        }
-
-        else
+        } else
 
             System.out.println("Preference digest checked");
 
@@ -103,7 +102,7 @@ public class Server{
 
         dataL = hold[0];
 
-        String [] holder = new String[20];
+        String[] holder = new String[20];
 
         int intVal = Integer.parseInt(dataL);
 
@@ -111,7 +110,7 @@ public class Server{
 
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
             comingString = inFromClient.readUTF();
 
@@ -132,9 +131,7 @@ public class Server{
 
             }
 
-        }
-
-        else if (hold[1].equals("L")) {
+        } else if (hold[1].equals("L")) {
 
             for (int i = 0; i < intVal; i++) {
 
@@ -146,35 +143,35 @@ public class Server{
 
         String tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
-            tmp+=holder[i];
+            tmp += holder[i];
 
         }
 
         outToClient.writeUTF(tmp);
 
-        for(int i=0; i<intVal; i++) {
+        for (int i = 0; i < intVal; i++) {
 
             String str1 = holder[i];
 
             char c = str1.charAt(0);
 
-            for (int d=0; d<Integer.parseInt(hold[2]); d++) {
+            for (int d = 0; d < Integer.parseInt(hold[2]); d++) {
 
                 c++;
 
             }
 
-            holder[i]=String.valueOf(c);
+            holder[i] = String.valueOf(c);
 
         }
 
         tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
-            tmp+=holder[i];
+            tmp += holder[i];
 
         }
 
@@ -188,7 +185,7 @@ public class Server{
 
         if (hold[3].equals("R")) {
 
-            for (int i = 0; i <intVal; i++) {
+            for (int i = 0; i < intVal; i++) {
 
                 String tmpColored1 = new String(ANSI_RED + holder[i] + ANSI_RESET);
 
@@ -210,9 +207,9 @@ public class Server{
 
         tmp = "";
 
-        for(int i=0; i<intVal;i++){
+        for (int i = 0; i < intVal; i++) {
 
-            tmp+=holder[i];
+            tmp += holder[i];
 
         }
 

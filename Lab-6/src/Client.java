@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.*;
 import java.util.Base64;
 import javax.crypto.spec.SecretKeySpec;
+
 public class Client {
 
     public static void main(String[] args) throws IOException, InterruptedException, NoSuchPaddingException, NoSuchAlgorithmException,
@@ -47,15 +48,15 @@ public class Client {
 
         byte[] encodedKey = Base64.getDecoder().decode(secretKey);
 
-        SecretKey originalKey = new SecretKeySpec(encodedKey,"AES");
+        SecretKey originalKey = new SecretKeySpec(encodedKey, "AES");
 
         cipher = Cipher.getInstance("AES");
 
-        cipher.init(Cipher.DECRYPT_MODE,originalKey);
+        cipher.init(Cipher.DECRYPT_MODE, originalKey);
 
         cipherUrl = inFromServer.readUTF();
 
-        System.out.println("Received String URL: "+ cipherUrl);
+        System.out.println("Received String URL: " + cipherUrl);
 
         decrypted_text = Base64.getDecoder().decode(cipherUrl);
 
@@ -63,13 +64,13 @@ public class Client {
 
         BufferedInputStream in = new BufferedInputStream(new URL(new String(decrypted_text1)).openStream());
 
-        for(int i = in.available();i>0;i--)
+        for (int i = in.available(); i > 0; i--)
 
-            urlData = urlData + (char)in.read();
+            urlData = urlData + (char) in.read();
 
         in.close();
 
-        System.out.println("Data: "+urlData);
+        System.out.println("Data: " + urlData);
 
         System.out.println("Enter Choices: U/L How many R/Y");
 
@@ -79,7 +80,7 @@ public class Client {
 
         RY = inFromUser.readLine();
 
-        outToServer.writeUTF(urlData.length()+" "+UL+" "+times+" "+RY);
+        outToServer.writeUTF(urlData.length() + " " + UL + " " + times + " " + RY);
 
         char[] holder = urlData.toCharArray();
 
@@ -87,7 +88,7 @@ public class Client {
 
         String holderCh;
 
-        for(int i=0; i<urlData.length();i++){
+        for (int i = 0; i < urlData.length(); i++) {
 
             holderCh = String.valueOf(holder[i]);
 
@@ -97,7 +98,7 @@ public class Client {
 
         }
 
-        System.out.println("ORIGINAL: "+ urlData);
+        System.out.println("ORIGINAL: " + urlData);
 
         System.out.println("After Case Change");
 
